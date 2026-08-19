@@ -13051,3 +13051,20 @@ body.tw-magic-cursor #magic-cursor {
   }
 
 }
+/* =========================================================
+   EXPERIENCE — REMOVE GIANT CIRCULAR CARD SHAPE ON MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .experience-premium .service-three-single {
+        border-radius: 16px !important;
+        border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    }
+
+    .experience-premium .service-three-single:hover {
+        border-radius: 16px !important;
+        border-color: rgba(255, 255, 255, 0.10) !important;
+    }
+
+}
