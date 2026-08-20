@@ -13068,3 +13068,20 @@ body.tw-magic-cursor #magic-cursor {
     }
 
 }
+
+/* =========================================================
+   INTERNAL SECTION NAVIGATION
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+#home,
+#about,
+#experience,
+#works,
+#research,
+#contact {
+  scroll-margin-top: 20px;
+}
