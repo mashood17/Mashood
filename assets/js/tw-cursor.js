@@ -1,12 +1,12 @@
-if ($("body").not(".is-mobile").hasClass("tw-magic-cursor")) {
+if ($("body").hasClass("tw-magic-cursor")) {
   $(".tw-magnetic-item").wrap('<div class="tw-magnetic-wrap"></div>');
 
   if ($("a.tw-magnetic-item").length) {
     $("a.tw-magnetic-item").addClass("not-hide-cursor");
   }
 
-  var $mouse = { x: 0, y: 0 }; // Cursor position
-  var $pos = { x: 0, y: 0 }; // Cursor position
+  var $mouse = { x: -100, y: -100 }; // Cursor position
+  var $pos = { x: -100, y: -100 }; // Cursor position
   var $ratio = 0.15; // delay follow cursor
   var $active = false;
   var $ball = $("#ball");
@@ -18,7 +18,6 @@ if ($("body").not(".is-mobile").hasClass("tw-magic-cursor")) {
   var $ballBorderWidth = 1; // Ball default border width
 
   gsap.set($ball, {
-    // scale from middle and style ball
     xPercent: -50,
     yPercent: -50,
     width: $ballWidth,
@@ -27,29 +26,63 @@ if ($("body").not(".is-mobile").hasClass("tw-magic-cursor")) {
     opacity: $ballOpacity,
   });
 
-  document.addEventListener("mousemove", mouseMove);
+  var isTicking = false;
+  var cursorVisible = false;
+
+  function updatePosition() {
+    if (!$active) {
+      var dx = $mouse.x - $pos.x;
+      var dy = $mouse.y - $pos.y;
+      $pos.x += dx * $ratio;
+      $pos.y += dy * $ratio;
+
+      gsap.set($ball, { x: $pos.x, y: $pos.y });
+
+      // Sleep ticker when close enough to save idle CPU
+      if (Math.abs(dx) < 0.15 && Math.abs(dy) < 0.15) {
+        $pos.x = $mouse.x;
+        $pos.y = $mouse.y;
+        gsap.set($ball, { x: $pos.x, y: $pos.y });
+        gsap.ticker.remove(updatePosition);
+        isTicking = false;
+      }
+    }
+  }
+
+  document.addEventListener("mousemove", mouseMove, { passive: true });
 
   function mouseMove(e) {
     $mouse.x = e.clientX;
     $mouse.y = e.clientY;
-  }
 
-  gsap.ticker.add(updatePosition);
-
-  function updatePosition() {
-    if (!$active) {
-      $pos.x += ($mouse.x - $pos.x) * $ratio;
-      $pos.y += ($mouse.y - $pos.y) * $ratio;
-
+    if (!cursorVisible) {
+      cursorVisible = true;
+      $pos.x = e.clientX;
+      $pos.y = e.clientY;
       gsap.set($ball, { x: $pos.x, y: $pos.y });
+      gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 1 });
+    }
+
+    if (!isTicking) {
+      isTicking = true;
+      gsap.ticker.add(updatePosition);
     }
   }
 
-  // Show/hide magic cursor //
+  // Show/hide magic cursor on window enter/leave
+  $(document)
+    .on("mouseleave", function () {
+      cursorVisible = false;
+      gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 0 });
+    })
+    .on("mouseenter", function () {
+      cursorVisible = true;
+      gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 1 });
+    });
 
-  // Hide on hover//
-  $("a, button, .tw-cart-minus, .tw-cart-plus") // class "hide-cursor" is for global use.
-    .not(".cursor-hide") // omit from selection.
+  // Hide on hover
+  $("a, button, .tw-cart-minus, .tw-cart-plus")
+    .not(".cursor-hide")
     .on("mouseenter", function () {
       gsap.to($ball, { duration: 0.3, scale: 0, opacity: 0 });
     })
@@ -61,41 +94,27 @@ if ($("body").not(".is-mobile").hasClass("tw-magic-cursor")) {
       });
     });
 
-  // Hide on click//
+  // Hide on click
   $("a")
-    .not('[target="_blank"]') // omit from selection.
-    .not(".cursor-hide") // omit from selection.
-    .not('[href^="#"]') // omit from selection.
-    .not('[href^="mailto"]') // omit from selection.
-    .not('[href^="tel"]') // omit from selection.
-    .not(".lg-trigger") // omit from selection.
-    .not(".tw-btn-disabled a") // omit from selection.
+    .not('[target="_blank"]')
+    .not(".cursor-hide")
+    .not('[href^="#"]')
+    .not('[href^="mailto"]')
+    .not('[href^="tel"]')
+    .not(".lg-trigger")
+    .not(".tw-btn-disabled a")
     .on("click", function () {
       gsap.to($ball, { duration: 0.3, scale: 1.3, autoAlpha: 0 });
     });
 
-  // Show/hide on document leave/enter//
-  $(document)
-    .on("mouseleave", function () {
-      gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 0 });
-    })
-    .on("mouseenter", function () {
-      gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 1 });
-    });
-
-  // Show as the mouse moves//
-  $(document).mousemove(function () {
-    gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 1 });
-  });
-
-  // Cursor view on hover (data attribute "data-cursor="...").
+  // Cursor view on hover (data attribute "data-cursor=...")
   $("[data-cursor]").each(function () {
     $(this)
       .on("mouseenter", function () {
         $("#ball").addClass("with-blur");
         $ball.append('<div class="ball-view"></div>');
         $(".ball-view").append($(this).attr("data-cursor"));
-        gsap.to(ball, {
+        gsap.to($ball, {
           duration: 0.3,
           yPercent: -75,
           width: 140,
@@ -110,7 +129,7 @@ if ($("body").not(".is-mobile").hasClass("tw-magic-cursor")) {
         gsap.to(".ball-view", { duration: 0.3, scale: 1, autoAlpha: 1 });
       })
       .on("mouseleave", function () {
-        gsap.to(ball, {
+        gsap.to($ball, {
           duration: 0.3,
           yPercent: -50,
           width: $ballWidth,

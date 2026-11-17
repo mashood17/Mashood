@@ -16,86 +16,92 @@
 
   ////////////////////////////////////////////////////
   // 01. Brand Js
-  var slider = new Swiper(".brand-active", {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    speed: 2500,
-    autoplay: true,
-    breakpoints: {
-      380: {
-        slidesPerView: 1,
+  if (typeof Swiper !== "undefined" && $(".brand-active").length) {
+    var slider = new Swiper(".brand-active", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      speed: 2500,
+      autoplay: true,
+      breakpoints: {
+        380: {
+          slidesPerView: 1,
+        },
+        576: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        992: {
+          slidesPerView: 3,
+        },
+        1200: {
+          slidesPerView: 5,
+        },
+        1600: {
+          slidesPerView: 6,
+        },
       },
-      576: {
-        slidesPerView: 2,
-      },
-      768: {
-        slidesPerView: 2,
-      },
-      992: {
-        slidesPerView: 3,
-      },
-      1200: {
-        slidesPerView: 5,
-      },
-      1600: {
-        slidesPerView: 6,
-      },
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 02. Testimonial Js
-  var slider = new Swiper(".testimonial-active", {
-    slidesPerView: 3,
-    spaceBetween: 10,
-    autoplay: true,
-    speed: 1500,
-    loop: true,
-    breakpoints: {
-      1200: {
-        slidesPerView: 3,
+  if (typeof Swiper !== "undefined" && $(".testimonial-active").length) {
+    var slider = new Swiper(".testimonial-active", {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      autoplay: true,
+      speed: 1500,
+      loop: true,
+      breakpoints: {
+        1200: {
+          slidesPerView: 3,
+        },
+        992: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 1,
+        },
+        576: {
+          slidesPerView: 1,
+        },
+        0: {
+          slidesPerView: 1,
+        },
       },
-      992: {
-        slidesPerView: 2,
+      // Navigation arrows
+      navigation: {
+        nextEl: ".slider-next",
+        prevEl: ".slider-prev",
       },
-      768: {
-        slidesPerView: 1,
-      },
-      576: {
-        slidesPerView: 1,
-      },
-      0: {
-        slidesPerView: 1,
-      },
-    },
-    // Navigation arrows
-    navigation: {
-      nextEl: ".slider-next",
-      prevEl: ".slider-prev",
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 03. Service Js
-  var slider = new Swiper(".service-active", {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    speed: 3500,
-    autoplay: true,
-    pagination: {
-      el: "#paginations",
-      type: "custom",
-      renderCustom: function (swiper, current, total) {
-        return `[${current}/${total}]`;
+  if (typeof Swiper !== "undefined" && $(".service-active").length) {
+    var slider = new Swiper(".service-active", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      speed: 3500,
+      autoplay: true,
+      pagination: {
+        el: "#paginations",
+        type: "custom",
+        renderCustom: function (swiper, current, total) {
+          return `[${current}/${total}]`;
+        },
       },
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 04. Marquee Js
-  if ($(".marquee_left").length) {
+  if ($(".marquee_left").length && typeof $.fn.marquee === "function") {
     $(".marquee_left").marquee({
       speed: 50,
       gap: 0,
@@ -111,33 +117,35 @@
 
   ////////////////////////////////////////////////////
   // 06. Testimonial Three Js
-  var slider = new Swiper(".testimonial-three-active", {
-    slidesPerView: 2,
-    spaceBetween: 10,
-    autoplay: true,
-    speed: 1500,
-    loop: true,
-    breakpoints: {
-      1200: {
-        slidesPerView: 2,
+  if (typeof Swiper !== "undefined" && $(".testimonial-three-active").length) {
+    var slider = new Swiper(".testimonial-three-active", {
+      slidesPerView: 2,
+      spaceBetween: 10,
+      autoplay: true,
+      speed: 1500,
+      loop: true,
+      breakpoints: {
+        1200: {
+          slidesPerView: 2,
+        },
+        992: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 1,
+        },
+        576: {
+          slidesPerView: 1,
+        },
+        0: {
+          slidesPerView: 1,
+        },
       },
-      992: {
-        slidesPerView: 1,
+      // Navigation arrows
+      navigation: {
+        nextEl: ".slider-next",
+        prevEl: ".slider-prev",
       },
-      768: {
-        slidesPerView: 1,
-      },
-      576: {
-        slidesPerView: 1,
-      },
-      0: {
-        slidesPerView: 1,
-      },
-    },
-    // Navigation arrows
-    navigation: {
-      nextEl: ".slider-next",
-      prevEl: ".slider-prev",
-    },
-  });
+    });
+  }
 })(jQuery);

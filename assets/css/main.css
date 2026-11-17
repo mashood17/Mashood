@@ -100,8 +100,7 @@
    ** RTL
 
    ================================== Css table of contents End======================================== */
-/* Font Family*/
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Phudu:wght@300..900&display=swap");
+/* Font Family loaded in HTML head via preconnected link */
 /* ========================= Variable Css Start ======================== */
 :root {
   /* Font Family Variable */
@@ -5755,14 +5754,54 @@ input:focus-visible {
   box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 24px;
 }
 
+.preloader .preloader-heading {
+  text-align: center;
+  max-width: 95vw;
+}
+
 .preloader .preloader-heading .load-text {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 600;
   color: hsl(var(--white));
-  letter-spacing: 15px;
+  letter-spacing: 12px;
+  text-indent: 12px;
   font-family: var(--body-font);
   text-transform: uppercase;
   z-index: 20;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .preloader .preloader-heading .load-text {
+    font-size: 22px;
+    letter-spacing: 8px;
+    text-indent: 8px;
+  }
+}
+
+@media (max-width: 767px) {
+  .preloader .preloader-heading .load-text {
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-indent: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .preloader .preloader-heading .load-text {
+    font-size: 13px;
+    letter-spacing: 3.5px;
+    text-indent: 3.5px;
+  }
+}
+
+@media (max-width: 360px) {
+  .preloader .preloader-heading .load-text {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-indent: 2px;
+  }
 }
 
 .load-text span {
@@ -5776,33 +5815,78 @@ input:focus-visible {
 }
 
 .load-text span:nth-child(2) {
-  -webkit-animation-delay: 0.1s;
-  animation-delay: 0.1s;
+  -webkit-animation-delay: 0.08s;
+  animation-delay: 0.08s;
 }
 
 .load-text span:nth-child(3) {
-  -webkit-animation-delay: 0.2s;
-  animation-delay: 0.2s;
+  -webkit-animation-delay: 0.16s;
+  animation-delay: 0.16s;
 }
 
 .load-text span:nth-child(4) {
-  -webkit-animation-delay: 0.3s;
-  animation-delay: 0.3s;
+  -webkit-animation-delay: 0.24s;
+  animation-delay: 0.24s;
 }
 
 .load-text span:nth-child(5) {
+  -webkit-animation-delay: 0.32s;
+  animation-delay: 0.32s;
+}
+
+.load-text span:nth-child(6) {
   -webkit-animation-delay: 0.4s;
   animation-delay: 0.4s;
 }
 
-.load-text span:nth-child(6) {
-  -webkit-animation-delay: 0.5s;
-  animation-delay: 0.5s;
+.load-text span:nth-child(7) {
+  -webkit-animation-delay: 0.48s;
+  animation-delay: 0.48s;
 }
 
-.load-text span:nth-child(7) {
-  -webkit-animation-delay: 0.6s;
-  animation-delay: 0.6s;
+.load-text span:nth-child(8) {
+  -webkit-animation-delay: 0.56s;
+  animation-delay: 0.56s;
+}
+
+.load-text span:nth-child(9) {
+  -webkit-animation-delay: 0.64s;
+  animation-delay: 0.64s;
+}
+
+.load-text span:nth-child(10) {
+  -webkit-animation-delay: 0.72s;
+  animation-delay: 0.72s;
+}
+
+.load-text span:nth-child(11) {
+  -webkit-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+}
+
+.load-text span:nth-child(12) {
+  -webkit-animation-delay: 0.88s;
+  animation-delay: 0.88s;
+}
+
+.load-text span:nth-child(13) {
+  -webkit-animation-delay: 0.96s;
+  animation-delay: 0.96s;
+}
+
+.load-text span:nth-child(14) {
+  -webkit-animation-delay: 1.04s;
+  animation-delay: 1.04s;
+}
+
+.load-text span:nth-child(15) {
+  -webkit-animation-delay: 1.12s;
+  animation-delay: 1.12s;
+}
+
+.load-text span:nth-child(16) {
+  -webkit-animation-delay: 1.2s;
+  animation-delay: 1.2s;
 }
 
 @-webkit-keyframes loading {
@@ -6072,6 +6156,7 @@ input:focus-visible {
   }
 }
 .footer-navigation ul li a {
+  -webkit-backdrop-filter: blur(40px);
   backdrop-filter: blur(40px);
   background: rgba(255, 255, 255, 0.04);
   display: block;
@@ -6199,6 +6284,7 @@ input:focus-visible {
   }
 }
 .footer-three-top-info {
+  -webkit-backdrop-filter: blur(34px);
   backdrop-filter: blur(34px);
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -8194,6 +8280,10 @@ body.tw-magic-cursor #magic-cursor {
 .banner-three-title {
   font-size: 397px;
   line-height: 83%;
+  text-align: center;
+}
+.banner-three-title span:first-child {
+  font-size: 0.77em;
 }
 @media screen and (max-width: 1799px) {
   .banner-three-title {
@@ -8227,17 +8317,25 @@ body.tw-magic-cursor #magic-cursor {
 }
 @media screen and (max-width: 767px) {
   .banner-three-title {
-    font-size: 123px;
+    font-size: 125px;
+  }
+  .banner-three-title span:first-child {
+    font-size: 0.85em;
   }
 }
 @media screen and (max-width: 575px) {
   .banner-three-title {
-    font-size: 88px;
+    font-size: 91px;
   }
 }
 @media screen and (max-width: 424px) {
   .banner-three-title {
-    font-size: 78px;
+    font-size: 68px;
+  }
+}
+@media screen and (max-width: 360px) {
+  .banner-three-title {
+    font-size: 57px;
   }
 }
 .banner-three-left {
@@ -11072,6 +11170,31 @@ body.tw-magic-cursor #magic-cursor {
   line-height: 1.7;
 }
 
+.education-luxury-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 8px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 4px;
+}
+
+.education-luxury-score-label {
+  color: rgba(0, 0, 0, 0.42);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.education-luxury-score-value {
+  color: #111111;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
 
 /* Mobile */
 
@@ -11124,6 +11247,19 @@ body.tw-magic-cursor #magic-cursor {
   .education-luxury-content p {
     font-size: 14px;
     line-height: 1.7;
+  }
+
+  .education-luxury-score {
+    padding: 6px 14px;
+    gap: 8px;
+  }
+
+  .education-luxury-score-label {
+    font-size: 9px;
+  }
+
+  .education-luxury-score-value {
+    font-size: 13px;
   }
 
 }

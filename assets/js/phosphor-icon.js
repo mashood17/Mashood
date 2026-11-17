@@ -1,6 +1,6 @@
 var head = document.getElementsByTagName("head")[0];
 
-for (const weight of ["regular", "thin", "light", "bold", "fill", "duotone"]) {
+for (const weight of ["regular", "bold"]) {
   var link = document.createElement("link");
   link.rel = "stylesheet";
   link.type = "text/css";

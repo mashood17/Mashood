@@ -67,14 +67,42 @@
   });
 
   ////////////////////////////////////////////////////
-  // 02. Sticky Js
-  $(window).on("scroll", function () {
-    if ($(window).scrollTop() >= 260) {
-      $(".header").addClass("fixed-header");
-    } else {
-      $(".header").removeClass("fixed-header");
+  // 02. Unified Throttled Scroll Handler (Sticky Header & Back-to-Top)
+  const headerEl = document.querySelector(".header");
+  const backToTopBtn = document.querySelector(".back-to-top-wrapper");
+  let scrollTicking = false;
+
+  window.addEventListener("scroll", () => {
+    if (!scrollTicking) {
+      window.requestAnimationFrame(() => {
+        const top = window.scrollY || document.documentElement.scrollTop;
+        if (headerEl) {
+          if (top >= 260) {
+            headerEl.classList.add("fixed-header");
+          } else {
+            headerEl.classList.remove("fixed-header");
+          }
+        }
+        if (backToTopBtn) {
+          if (top > 300) {
+            backToTopBtn.classList.add("back-to-top-btn-show");
+          } else {
+            backToTopBtn.classList.remove("back-to-top-btn-show");
+          }
+        }
+        scrollTicking = false;
+      });
+      scrollTicking = true;
     }
-  });
+  }, { passive: true });
+
+  const btnTop = document.getElementById("back_to_top");
+  if (btnTop) {
+    btnTop.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 03. Menu Controls JS
@@ -154,18 +182,10 @@
     anchorPlacement: "top-bottom", // when the bottom of the element hits the bottom of the screen
   });
 
+  ////////////////////////////////////////////////////
   // 08. Backtotop Js
   function back_to_top() {
     var btn = $("#back_to_top");
-    var btn_wrapper = $(".back-to-top-wrapper");
-    $(window).on("scroll", function () {
-      if ($(this).scrollTop() > 300) {
-        btn_wrapper.addClass("back-to-top-btn-show");
-      } else {
-        btn_wrapper.removeClass("back-to-top-btn-show");
-      }
-    });
-
     btn.on("click", function (e) {
       e.preventDefault();
       $("html, body").animate({ scrollTop: 0 }, 300);
@@ -175,20 +195,24 @@
 
   ////////////////////////////////////////////////////
   // 09. Magnific Popup Js
-  $(".open-popup").magnificPopup({
-    type: "iframe",
-    removalDelay: 300,
-    mainClass: "mfp-fade",
-  });
+  if (typeof $.fn.magnificPopup === "function") {
+    $(".open-popup").magnificPopup({
+      type: "iframe",
+      removalDelay: 300,
+      mainClass: "mfp-fade",
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 10. Counter Js
-  new PureCounter();
-  new PureCounter({
-    filesizing: true,
-    selector: ".filesizecount",
-    pulse: 2,
-  });
+  if (typeof PureCounter === "function") {
+    new PureCounter();
+    new PureCounter({
+      filesizing: true,
+      selector: ".filesizecount",
+      pulse: 2,
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 11. Feature Widget Animation Js

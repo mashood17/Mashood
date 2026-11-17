@@ -11,9 +11,9 @@
 07. Portfolio Panel Js
 08. Image Cliping Effect
 09. Hover Reveal
-10. Tesimonial Two Shape Effect
+10. Testimonial Two child (2) Effect
+10. Testimonial Two Shape Effect
 11. Portfolio Three Effect
-
 
 ****************************************************/
 
@@ -51,7 +51,7 @@
     });
     let smoother = ScrollSmoother.create({
       smoothTouch: 0.2,
-      smooth: 4,
+      smooth: 2,
       effects: true,
       normalizeScroll: false,
       ignoreMobileResize: true,
@@ -363,7 +363,7 @@
 
   ////////////////////////////////////////////////////
   // 06. Footer Title
-  if ($(".animated-title").length > 0) {
+  if ($(".animated-title").length > 0 && typeof chroma !== "undefined") {
     let cta = gsap.timeline({
       repeat: -1,
       delay: 0.5,
@@ -453,24 +453,26 @@
   ////////////////////////////////////////////////////
   // 07. Portfolio Panel Js
   let otherSections = document.querySelectorAll(".portfolio-panel");
-  gsap.set(otherSections, {
-    scale: 1,
-  });
-  otherSections.forEach((section) => {
-    gsap.to(section, {
-      scale: 0.8,
-      scrollTrigger: {
-        trigger: section,
-        pin: true,
-        scrub: 1,
-        start: "top 20%",
-        end: "bottom 100%",
-        endTrigger: ".portfolio-panel-area",
-        pinSpacing: false,
-        markers: false,
-      },
+  if (otherSections.length) {
+    gsap.set(otherSections, {
+      scale: 1,
     });
-  });
+    otherSections.forEach((section) => {
+      gsap.to(section, {
+        scale: 0.8,
+        scrollTrigger: {
+          trigger: section,
+          pin: true,
+          scrub: 1,
+          start: "top 20%",
+          end: "bottom 100%",
+          endTrigger: ".portfolio-panel-area",
+          pinSpacing: false,
+          markers: false,
+        },
+      });
+    });
+  }
 
   ///////////////////////
   // 08. Image Cliping Effect
@@ -562,13 +564,13 @@
     const x = e.clientX - item.x;
     const y = e.clientY - item.y;
     if (hoverItem.children[index]) {
-      hoverItem.children[index].style.transform = `translate(${x}px, ${y}px)`;
+      hoverItem.children[index].style.transform = `translate3d(${x}px, ${y}px, 0)`;
     }
   }
   hoverItem.forEach((item, i) => {
     item.addEventListener("mousemove", (e) => {
-      setInterval(moveImage(e, item, 1), 50);
-    });
+      moveImage(e, item, 1);
+    }, { passive: true });
   });
 
   ///////////////////////
@@ -577,61 +579,70 @@
   ScrollTrigger.matchMedia({
     // only run on 1200px and above
     "(min-width: 1199px)": function () {
-      gsap.fromTo(
-        ".testimonial-two-main .testimonial-wrapper:nth-child(2)",
-        {
-          y: 300,
-        },
-        {
-          y: 0,
-          ease: "power9.out",
-          scrollTrigger: {
-            trigger: ".testimonial-two-main",
-            start: "top 80%",
-            end: "top 40%",
-            scrub: 5.5, // рџ‘€ add smooth transition delay
-            markers: false,
+      if (document.querySelector(".testimonial-two-main")) {
+        gsap.fromTo(
+          ".testimonial-two-main .testimonial-wrapper:nth-child(2)",
+          {
+            y: 300,
           },
-        },
-      );
+          {
+            y: 0,
+            ease: "power9.out",
+            scrollTrigger: {
+              trigger: ".testimonial-two-main",
+              start: "top 80%",
+              end: "top 40%",
+              scrub: 5.5,
+              markers: false,
+            },
+          },
+        );
+      }
     },
-    // below 1199px в†’ do nothing (animation OFF)
-    "(max-width: 1198px)": function () {
-      // optional cleanup if needed
-    },
+    // below 1199px
+    "(max-width: 1198px)": function () {},
   });
 
   ///////////////////////
   // 10. Tesimonial Two Shape Effect
   let nn = gsap.matchMedia();
   nn.add("(min-width: 1199px)", () => {
-    gsap.fromTo(
-      ".testimonial-two-shape",
-      { y: "0%" },
-      {
-        y: "100%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".testimonial-two-shape",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
+    if (document.querySelector(".testimonial-two-shape")) {
+      gsap.fromTo(
+        ".testimonial-two-shape",
+        { y: "0%" },
+        {
+          y: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".testimonial-two-shape",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
         },
-      },
-    );
+      );
+    }
   });
 
   ///////////////////////
   // 11. Portfolio Three Effect
-  gsap.to(".portfolio-three-shape", {
-    scrollTrigger: {
-      trigger: ".portfolio-three-area",
-      start: "top center-=200",
-      pin: ".portfolio-three-shape",
-      end: "bottom bottom-=200",
-      markers: false,
-      pinSpacing: false,
-      scrub: 1,
-    },
+  if (document.querySelector(".portfolio-three-area")) {
+    gsap.to(".portfolio-three-shape", {
+      scrollTrigger: {
+        trigger: ".portfolio-three-area",
+        start: "top center-=200",
+        pin: ".portfolio-three-shape",
+        end: "bottom bottom-=200",
+        markers: false,
+        pinSpacing: false,
+        scrub: 1,
+      },
+    });
+  }
+
+  // Refresh ScrollTrigger after assets are loaded
+  window.addEventListener("load", () => {
+    ScrollTrigger.refresh();
   });
 })(jQuery);
